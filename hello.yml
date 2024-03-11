@@ -49,3 +49,20 @@
     command: forever start /node-app/app.js
     when: "forever_list.stdout.find('/node-app/app.js') == -1"
 
+
+# Third Play
+- name: Play - Install Nginx load balancer
+  hosts: loadbalancer
+  tasks:
+    - name: Install Nginx
+      apk:
+        name: nginx
+        state: latest
+    - name: Copy Nginx configuration file
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
